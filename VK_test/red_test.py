@@ -1,7 +1,12 @@
+import pytest
 from selenium import webdriver
 
-browser = webdriver.Chrome()
-browser.get('http://127.0.0.1:8000/home/')
+@pytest.fixture
+def driver():
+    driver = webdriver.Chrome()
+    yield driver
+    driver.quit()
 
-assert browser.title == 'VK Check'
-
+def test_page_title(driver):
+    driver.get('http://127.0.0.1:8000/home/')
+    assert driver.title == 'VK Check'
